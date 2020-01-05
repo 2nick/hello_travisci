@@ -3,8 +3,8 @@ language: go
 env: GO111MODULE=on GOFLAGS='-mod vendor' GOARCH=amd64
 notifications:
   email: false
-go:
-- 1.13.x
+go: 1.13.x
+go_import_path: github.com/2nick/hello_travisci
 script:
 - GOOS=linux go build -o main-linux-amd64 main.go
 - shasum -a 256 main-linux-amd64 > main-linux-amd64.sha256
