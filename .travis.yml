@@ -1,0 +1,26 @@
+dist: bionic
+language: go
+env: GO111MODULE=on GOFLAGS='-mod vendor' GOARCH=amd64
+notifications:
+  email: false
+go:
+- 1.13.x
+script:
+- GOOS=linux go build -o main-linux-amd64 main.go
+- shasum -a 256 main-linux-amd64 > main-linux-amd64.sha256
+- GOOS=darwin go build -o main-darwin-amd64 main.go
+- shasum -a 256 main-darwin-amd64 > main-darwin-amd64.sha256
+deploy:
+  provider: releases
+  api_key:
+    secure: kPoNukaAO8zAuQtmWdcI+aQBezYGEGTmPrlSh9ucW+LocfJdFiD1gkcPi6let/GG6FCgiywn0r0mBKV6/nowEk9PkONtGOzbIbAeUs0AYRZaVfxpvQmOTwl6uHW22o4zQ0U82esIFckaOJ/IYJQ46jI5Mycx+Y4B1vpSbkG2JIM4D4eCypqZ8SaXFn+poxYfYDIRVzIfht9ae5OfggdaRhUAw/ZfwjRCZtMnyJ2G4v16ZU7uzMBbwiOU3GNbHk7RN+3Wxz8HhnCtG6FNBCoV/uGQXvybf3KMscmPtg6pj6cDKdkH+uZkqpagffujCCJWmel2uVR61fkYEuQPcE4OjKNnojk0M5oJls3kNU8i4Z6UCv+nP+IT/Y573YDxKsPMoJwO+YaexogfaS8d9AXcGOxX/e0bstTpGhW4owNlOWIo7AR673cl3FzK2+dq4JBaW3IWMhyrK+EHf4r7+0ojrBeY3cNxiSaviW9/g3L1/uGjyL8Lc1nCNUplDVjsSA9kIsQee8KYlMVw4thN2Gpll9Xucyi4tMiHyf150i+cQ8xmHiD/XWLVagLkMawYeImzIkKdNkRdsnG0WOj4icHEye3u3WeVcKyGmbBKsRHS4Qij6IFPlg9yXK1PLnPEbH/VIq3DR01sGm+WU16LF/Is1gWAScOElXNktS0saW3acC4=
+  file:
+    - main-linux-amd64
+    - main-linux-amd64.sha256
+    - main-darwin-amd64
+    - main-darwin-amd64.sha256
+  skip_cleanup: true
+  on:
+    repo: 2nick/hello_travisci
+    branch: master
+    tags: true
