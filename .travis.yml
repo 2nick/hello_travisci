@@ -7,10 +7,12 @@ go:
 go_import_path: github.com/2nick/hello_travisci
 script:
   - skip
-os: linux
 arch: amd64
 before_deploy:
-  - go build -o main-linux-amd64 main.go
+  - GOOS=linux go build -o main-linux-amd64 main.go
+  - shasum -a 256 main-linux-amd64 > main-linux-amd64.sha256
+  - GOOS=darwin go build -o main-darwin-amd64 main.go
+  - shasum -a 256 main-darwin-amd64 > main-darwin-amd64.sha256
 deploy:
   provider: releases
   api_key:
